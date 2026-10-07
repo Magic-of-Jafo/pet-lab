@@ -7,21 +7,15 @@ and hands you a program that runs on your real PET.*
 
 <p align="center">
   <img src="docs/images/hero.png" alt="PET LAB title screen in green PET graphics: block letters, a PET showing READY., a lab flask and a 6502 chip" width="720">
-  <br><em>This title screen was designed by an AI agent in Pet Lab, in BASIC, checking its own screenshots as it went.
-  (<a href="examples/">source and prompt</a>)</em>
 </p>
 
-"Vibe coding" means programming by describing what you want instead of
-writing the code yourself: *"make a maze game where I steer with the number
-keys"*. An AI does the writing and the debugging, and you play the result.
-
-Pet Lab brings that to a 1977 Commodore PET 4032. It runs in Docker on any
-computer you have lying around: a desktop, an old laptop, a NAS. Inside
-it is an emulated PET (BASIC 4.0, 32 KB of RAM, a 40×25 green screen, no
-sound chip) that the AI uses the way you would. It types on the keyboard,
-watches the screen, `LOAD`s and `RUN`s programs, and drops into a debugger
-when something breaks. When the program works, you load it on your
-**real** PET.
+Pet Lab brings vibe coding to your 1977 Commodore PET 4032. It runs in
+Docker on any computer you have lying around: a desktop, an old laptop, a
+NAS. Inside it is an emulated PET (BASIC 4.0, 32 KB of RAM, a 40×25 green
+screen, no sound chip) that the AI uses the way you would. It types on the
+keyboard, watches the screen, `LOAD`s and `RUN`s programs, and drops into
+a debugger when something breaks. When the program works, you load it on
+your **real** PET.
 
 > **Where this is going.** Today Pet Lab is the half of the project that
 > runs on your PC: the emulated PET, the AI tools and the agent. The other
