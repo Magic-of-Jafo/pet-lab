@@ -50,7 +50,7 @@
 230 PRINT "{rvs on} {rvs off}   {162}{162}{162}{162}{162}{162}{162}{162}{162}{162}";
 231 PRINT "{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}";
 232 PRINT "{162}{162}{162}{162}{162}{162}{162}{162}   {rvs on} ";
-240 PRINT "{rvs on} {rvs off}   {rvs on}      AI PAIR PROGRAMMING       ";
+240 PRINT "{rvs on} {rvs off}   {rvs on}          VIBE CODING           ";
 241 PRINT "{rvs off}   {rvs on} ";
 250 PRINT "{rvs on} {rvs off}   {rvs on}     FOR THE COMMODORE PET      ";
 251 PRINT "{rvs off}   {rvs on} ";

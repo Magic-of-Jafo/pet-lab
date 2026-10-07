@@ -25,6 +25,10 @@ rewrote it with `PRINT`s.
 > great: check it with pet_screen include_image=true and refine the layout
 > until it looks balanced.
 
+Afterwards the tagline was changed by hand to VIBE CODING FOR THE
+COMMODORE PET (one line in `SPLASH.BAS`); everything else is as the agent
+made it.
+
 | File | |
 |---|---|
 | `SPLASH.PRG` | `LOAD"SPLASH",8` then `RUN` |

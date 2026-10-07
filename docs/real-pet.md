@@ -25,16 +25,15 @@ straight away: the agent finishes, you type `LOAD"GAME",9`.
 
 The upstream PETdisk MAX firmware has bugs in its network drive code (lost
 saves, buffer overruns, drives interfering with each other) and its server
-script lets requests read and write files outside its folder. The
-[petdisk-max `fixes` branch](https://github.com/Magic-of-Jafo/petdisk-max/tree/fixes)
-fixes these, adds subfolders on network drives, and includes a PET test
-program (`test/pet/PDTEST`). It is waiting on hardware testing; follow
-its `test/pet/TESTING.md` and keep a backup of your firmware.
+script lets requests read and write files outside its folder. Fixing these
+is the hardware half of Pet Lab: corrected firmware, subfolders on network
+drives, a hardened server script and a PET test program. The work is
+being tested on real hardware and will be folded into this project once it
+passes; until then it lives on the `fixes` branch of a petdisk-max fork.
 
 ## Talking to an AI from the PET
 
-The plan, written up as a
-[PRD](https://github.com/Magic-of-Jafo/petdisk-max/blob/fixes/docs/AGENT_CHANNEL_PRD.md):
+The plan:
 
 1. **Mailbox mode** (works with stock PETdisk firmware): a PET program
    saves your message to the network drive, a bridge service passes it to

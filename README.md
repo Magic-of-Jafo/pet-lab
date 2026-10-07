@@ -1,6 +1,9 @@
 # Pet Lab
 
-**A 1977 Commodore PET, wired up for your AI pair programmer.**
+**Vibe coding for the Commodore PET.**
+
+*Describe the program you want in plain English. An AI writes it, tests it,
+and hands you a program that runs on your real PET.*
 
 <p align="center">
   <img src="docs/images/hero.png" alt="PET LAB title screen in green PET graphics: block letters, a PET showing READY., a lab flask and a 6502 chip" width="720">
@@ -8,11 +11,28 @@
   (<a href="examples/">source and prompt</a>)</em>
 </p>
 
-Pet Lab is a Docker container with a Commodore PET 4032 inside it: BASIC
-4.0, 32 KB of RAM, a 40×25 green screen and no sound chip. An AI agent can
-use it the way you would. It types on the keyboard, watches the screen,
-`LOAD`s and `RUN`s programs, and drops into a debugger when something
-breaks. When the program works, you load it on your **real** PET.
+"Vibe coding" means programming by describing what you want instead of
+writing the code yourself: *"make a maze game where I steer with the number
+keys"*. An AI does the writing and the debugging, and you play the result.
+
+Pet Lab brings that to a 1977 Commodore PET 4032. It runs in Docker on any
+computer you have lying around: a desktop, an old laptop, a NAS. Inside
+it is an emulated PET (BASIC 4.0, 32 KB of RAM, a 40×25 green screen, no
+sound chip) that the AI uses the way you would. It types on the keyboard,
+watches the screen, `LOAD`s and `RUN`s programs, and drops into a debugger
+when something breaks. When the program works, you load it on your
+**real** PET.
+
+> **Where this is going.** Today Pet Lab is the half of the project that
+> runs on your PC: the emulated PET, the AI tools and the agent. The other
+> half connects it to a real PET through a **PETdisk MAX** (a modern
+> SD-card and Wi-Fi drive for the PET), so you can type your request **on
+> the PET's own keyboard** and the finished program shows up on the PET's
+> drive, ready to `LOAD` and `RUN`. That part is being built and tested on
+> real hardware now. Once it works end to end, this project will look
+> quite different from the outside: less "an emulator in a box", more
+> "talk to your PET and it writes its own software". Expect this page to
+> change a lot.
 
 > **You:** Make a program called BOUNCE: a ball that bounces around the
 > screen, in machine code, called from BASIC until I press a key.
@@ -135,11 +155,10 @@ an SD-card drive (SD2PET, petSD+, PETdisk MAX), a disk image for a real
 drive, or a network drive.
 
 With a **PETdisk MAX**, the PET can load straight from a folder on your
-network (`LOAD"BOUNCE",9`). Pet Lab's sister project
-[petdisk-max `fixes`](https://github.com/Magic-of-Jafo/petdisk-max/tree/fixes)
-fixes the PETdisk's network drive bugs and hardens its server script, and
-its [PRD](https://github.com/Magic-of-Jafo/petdisk-max/blob/fixes/docs/AGENT_CHANNEL_PRD.md)
-plans the next step: typing to an AI **from the PET's own keyboard**. See
+network (`LOAD"BOUNCE",9`). Making that reliable is the hardware half of
+this project: fixed PETdisk firmware, a safer server script, and then
+typing to the AI **from the PET's own keyboard**. That work is being tested
+on real hardware and will become part of Pet Lab. See
 [docs/real-pet.md](docs/real-pet.md).
 
 ## Documentation
@@ -156,12 +175,15 @@ plans the next step: typing to an AI **from the PET's own keyboard**. See
 
 ## Roadmap
 
-- **Now:** emulated PET 4032, MCP server, petrun, reference, examples.
-- **Next:** MCP over HTTP for clients elsewhere on your network; a tool to
-  publish programs to a PETdisk MAX network drive.
-- **Then:** chat with an AI from the PET itself, through the PETdisk MAX
-  ([PRD](https://github.com/Magic-of-Jafo/petdisk-max/blob/fixes/docs/AGENT_CHANNEL_PRD.md)).
-- More machines: the 8032 (80 columns) and the original 2001.
+- **Now:** the PC half: emulated PET 4032, MCP server, petrun, reference,
+  examples.
+- **Next:** the hardware half: PETdisk MAX firmware fixes tested on a real
+  PET, and programs published straight to the PET's network drive.
+- **Then:** vibe coding from the PET itself: type your request on the PET,
+  get the program on its drive.
+- **After that:** the README gets rewritten around the whole thing working
+  together.
+- Later: more machines (the 8032 with 80 columns, the original 2001).
 
 Ideas and pull requests welcome: see [CONTRIBUTING.md](CONTRIBUTING.md).
 
