@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "pet": {
+      "command": "pet-mcp"
+    }
+  }
+}

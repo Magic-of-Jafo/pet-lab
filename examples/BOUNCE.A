@@ -1,0 +1,62 @@
+; BOUNCE - move a ball (screen code 81) one diagonal step per call.
+; Lives in cassette buffer #2. No zero page used: the screen
+; addresses are patched into the STA instructions (self-modifying).
+; State: X (0-39), Y (0-24), DX/DY = 1 or $FF. Start with SYS 830.
+
+        !to "BOUNCE.BIN", plain
+        * = $033A
+
+bx      !byte 20                ; 826
+by      !byte 12                ; 827
+dx      !byte 1                 ; 828
+dy      !byte 1                 ; 829
+
+start                           ; 830 = $033E
+        lda #32                 ; erase ball at its old place
+erase   sta $8000               ; operand patched below
+
+        lda bx                  ; X = X + DX, bounce at 0 and 39
+        clc
+        adc dx
+        cmp #40                 ; -1 ($FF) or 40 are both >= 40
+        bcc xok
+        lda #0                  ; DX = -DX
+        sec
+        sbc dx
+        sta dx
+        lda bx
+        clc
+        adc dx
+xok     sta bx
+
+        lda by                  ; Y = Y + DY, bounce at 0 and 24
+        clc
+        adc dy
+        cmp #25
+        bcc yok
+        lda #0
+        sec
+        sbc dy
+        sta dy
+        lda by
+        clc
+        adc dy
+yok     sta by
+
+        ldx #$80                ; address = $8000 + Y*40 + X
+        lda bx                  ; A = low byte, X = high byte
+        ldy by
+        beq addrok
+row     clc
+        adc #40
+        bcc nocarry
+        inx
+nocarry dey
+        bne row
+addrok  sta draw+1
+        sta erase+1             ; next call erases here
+        stx draw+2
+        stx erase+2
+        lda #81                 ; ball
+draw    sta $8000               ; operand patched above
+        rts

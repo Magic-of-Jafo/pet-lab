@@ -1,0 +1,62 @@
+10 REM SPLASH - PET LAB TITLE CARD
+20 REM EACH PRINT IS ONE 40-COLUMN SCREEN ROW (OR HALF A ROW)
+30 PRINT "{clr}{rvs on}                                        ";
+40 PRINT "{rvs on} {rvs off}                                      {rvs on} ";
+50 PRINT "{rvs on} {rvs off}   {rvs on}   {223}{rvs off} {rvs on}    {rvs off} ";
+51 PRINT "{rvs on}    {rvs off}   {rvs on} {rvs off}    {rvs on}{169}  {223}";
+52 PRINT "{rvs off} {rvs on}   {223}{rvs off}    {rvs on} ";
+60 PRINT "{rvs on} {rvs off}   {rvs on} {rvs off}{166}{166}{rvs on} {rvs off}{166}";
+61 PRINT "{rvs on} {rvs off}{166}{166}{166}{166} {rvs on}  {rvs off}{166}{166}  ";
+62 PRINT "{rvs on} {rvs off}{166}   {rvs on} {rvs off}{166}{166}{rvs on} {rvs off}";
+63 PRINT "{166}{rvs on} {rvs off}{166}{166}{rvs on} {rvs off}{166}   {rvs on} ";
+70 PRINT "{rvs on} {rvs off}   {rvs on}   {rvs off}{169}{166}{rvs on}   {rvs off}";
+71 PRINT "   {rvs on}  {rvs off}{166}   {rvs on} {rvs off}{166}   {rvs on}    ";
+72 PRINT "{rvs off}{166}{rvs on}    {rvs off}{166}   {rvs on} ";
+80 PRINT "{rvs on} {rvs off}   {rvs on} {rvs off}{166}{166}{166}{166}{rvs on} {rvs off}";
+81 PRINT "{166}{166}{166}  {rvs on}  {rvs off}{166}   {rvs on} {rvs off}{166}   ";
+82 PRINT "{rvs on} {rvs off}{166}{166}{rvs on} {rvs off}{166}{rvs on} {rvs off}";
+83 PRINT "{166}{166}{rvs on} {rvs off}{166}   {rvs on} ";
+90 PRINT "{rvs on} {rvs off}   {rvs on} {rvs off}{166}   {rvs on}    {rvs off}  ";
+91 PRINT "{rvs on}  {rvs off}{166}   {rvs on}    {rvs off} {rvs on} {rvs off}{166} ";
+92 PRINT "{rvs on} {rvs off}{166}{rvs on}   {rvs off}{169}{166}   {rvs on} ";
+100 PRINT "{rvs on} {rvs off}    {166}    {166}{166}{166}{166}  {166}{166}    ";
+101 PRINT "{166}{166}{166}{166} {166}  {166} {166}{166}{166}{166}   {rvs on} ";
+110 PRINT "{rvs on} {rvs off}                                      {rvs on} ";
+120 PRINT "{rvs on} {rvs off}           {rvs on}{169}              {223}";
+121 PRINT "{rvs off}           {rvs on} ";
+130 PRINT "{rvs on} {rvs off}    {215}      {rvs on}  {rvs off} READY.     ";
+131 PRINT "{rvs on}  {rvs off}           {rvs on} ";
+140 PRINT "{rvs on} {rvs off}   {209}       {rvs on}  {rvs off} {rvs on} {rvs off}";
+141 PRINT "          {rvs on}  {rvs off}    {221}{221}{221}{221}{221}{221} {rvs on} ";
+150 PRINT "{rvs on} {rvs off}   {165}{167}      {rvs on}  {rvs off}            ";
+151 PRINT "{rvs on}  {rvs off}{192}{192}{192}{192}{rvs on} 6502 {rvs off} {rvs on} ";
+160 PRINT "{rvs on} {rvs off}   {165}{167}      {rvs on}  {rvs off}            ";
+161 PRINT "{rvs on}  {rvs off}    {rvs on}      {rvs off} {rvs on} ";
+170 PRINT "{rvs on} {rvs off}  {206}  {205}     {rvs on}                {rvs off}";
+171 PRINT "    {221}{221}{221}{221}{221}{221} {rvs on} ";
+180 PRINT "{rvs on} {rvs off} {206}{166}{166}{166}{166}{205}  {rvs on}{169}         ";
+181 PRINT "         {223}{rvs off}   {221}  {221}  {rvs on} ";
+190 PRINT "{rvs on} {rvs off} {165}{166}{166}{166}{166}{167}  {rvs on} {rvs off}";
+191 PRINT "{190}{190}{190}{190}{190}{190}{190}{190}{190}{190}{190}{190}{190}";
+192 PRINT "{rvs on} {rvs off}{190}{190}{190}{190}{rvs on} {rvs off}   {221}  ";
+193 PRINT "{202}{192}{192}{rvs on} ";
+200 PRINT "{rvs on} {rvs off} {165}{166}{166}{166}{166}{167}  {rvs on} {rvs off}";
+201 PRINT "{190}{190}{190}{190}{190}{190}{190}{190}{190}{190}{190}{190}{190}";
+202 PRINT "{rvs on} {rvs off}{190}{190}{190}{190}{rvs on} {rvs off}   {209}     ";
+203 PRINT "{rvs on} ";
+210 PRINT "{rvs on} {rvs off} {163}{163}{163}{163}{163}{163}  {223}{rvs on}         ";
+211 PRINT "         {rvs off}{169}         {rvs on} ";
+220 PRINT "{rvs on} {rvs off}                                      {rvs on} ";
+230 PRINT "{rvs on} {rvs off}   {162}{162}{162}{162}{162}{162}{162}{162}{162}{162}";
+231 PRINT "{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}";
+232 PRINT "{162}{162}{162}{162}{162}{162}{162}{162}   {rvs on} ";
+240 PRINT "{rvs on} {rvs off}   {rvs on}      AI PAIR PROGRAMMING       ";
+241 PRINT "{rvs off}   {rvs on} ";
+250 PRINT "{rvs on} {rvs off}   {rvs on}     FOR THE COMMODORE PET      ";
+251 PRINT "{rvs off}   {rvs on} ";
+260 PRINT "{rvs on} {rvs off}   {rvs on}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}";
+261 PRINT "{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}{162}";
+262 PRINT "{162}{162}{162}{162}{162}{162}{162}{162}{rvs off}   {rvs on} ";
+270 PRINT "{rvs on}                                       ";:POKE 33767,160
+280 GET K$:IF K$="" THEN 280
+290 PRINT "{clr}";:END

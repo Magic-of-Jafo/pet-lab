@@ -1,0 +1,14 @@
+services:
+  pet-lab:
+    container_name: pet-lab
+    build:
+      context: .
+      args:
+        # Match the owner of ./workspace on the host (see `id -u` / `id -g`).
+        PETLAB_UID: "${PETLAB_UID:-1000}"
+        PETLAB_GID: "${PETLAB_GID:-1000}"
+    image: pet-lab:latest
+    volumes:
+      - ./workspace:/workspace     # your programs; also the MCP tools' sandbox
+      - ./home:/home/pet           # keeps Claude Code's login between restarts
+    restart: unless-stopped

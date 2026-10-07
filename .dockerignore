@@ -1,0 +1,9 @@
+.git
+.env
+deploy.env
+home
+workspace
+docs
+examples
+*.md
+!pet-ref/*.md

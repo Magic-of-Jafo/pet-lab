@@ -1,0 +1,4 @@
+#!/bin/sh
+# Start the PET MCP server (stdio). See /opt/petlab/petlab/mcp_server.py.
+export PYTHONPATH=/opt/petlab${PYTHONPATH:+:$PYTHONPATH}
+exec /opt/petlab-venv/bin/python -m petlab.mcp_server "$@"

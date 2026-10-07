@@ -1,0 +1,153 @@
+#!/usr/bin/env python3
+"""petrun - tokenize a PET BASIC program and test it headless in VICE xpet.
+
+Usage:
+  petrun PROG.BAS [steps...] [--shot out.png] [--model 4032] [--hz 60]
+  petrun PROG.BAS --prg PROG.PRG      # tokenize only (handover)
+
+Write listings in UPPERCASE, as they appear on the PET. Lowercase letters
+become shifted (graphics) characters. Control codes go in braces: {clr}.
+
+Steps run in the order given (default: --wait 3):
+  --wait SECONDS   let the emulator run
+  --keys TEXT      type TEXT on the PET keyboard ("\\r" = RETURN, {CLR} etc.)
+  --screen         print the screen at this point (always printed at the end)
+  --sys ADDR       type SYS ADDR (decimal or $hex) to start machine code
+  --peek A-B       hex dump memory A..B ($hex or decimal), e.g. --peek '$7000-$70ff'
+  --regs           print the CPU registers
+  --mon CMD        run any VICE monitor command and print its output
+  --break ADDR     stop when the CPU executes ADDR ...
+  --until-break S  ... wait up to S seconds for it, then print registers
+
+A .PRG that loads at $0401 is RUN. Anything else is only loaded; start it
+with --sys.
+
+Examples:
+  petrun STARTREK.BAS
+  petrun STARTREK.BAS --wait 2 --keys "1\\r" --wait 2 --screen --keys "Q" --wait 1
+  petrun GAME.PRG --shot /workspace/game.png
+  petrun FILES.BAS --drive 8=/workspace/disk8   # folder as disk drive 8
+  petrun SPRITE.PRG --sys '$7000' --wait 1 --peek '$8000-$8027'
+  petrun GAME.PRG --break '$1234' --until-break 5 --peek '$00-$ff'
+
+Exit codes: 0 ok, 1 BASIC error on screen, 2 tokenize failed, 3 emulator failed.
+"""
+import argparse
+import os
+import sys
+
+sys.path.insert(0, os.environ.get("PETLAB_LIB", "/opt/petlab"))
+
+from petlab import basic, screen as scr  # noqa: E402
+from petlab.vice import Emulator, EmulatorError, parse_addr, find_free_port  # noqa: E402
+
+
+class Step(argparse.Action):
+    def __call__(self, parser, ns, value, option):
+        ns.steps = (ns.steps or []) + [(self.dest, value)]
+
+
+def parse_args():
+    p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    p.add_argument("program")
+    p.add_argument("--wait", action=Step, type=float)
+    p.add_argument("--keys", action=Step)
+    p.add_argument("--screen", action=Step, nargs=0)
+    p.add_argument("--sys", action=Step)
+    p.add_argument("--peek", action=Step)
+    p.add_argument("--regs", action=Step, nargs=0)
+    p.add_argument("--mon", action=Step)
+    p.add_argument("--break", dest="brk", action=Step)
+    p.add_argument("--until-break", dest="until_break", action=Step, type=float)
+    p.add_argument("--shot", help="save a PNG screenshot at the end")
+    p.add_argument("--prg", metavar="OUT.PRG", help="only tokenize to OUT.PRG and exit (for handover)")
+    p.add_argument("--drive", action="append", default=[], metavar="N=DIR",
+                   help="attach a host folder as disk device N (8-11), e.g. --drive 8=/workspace/disk")
+    p.add_argument("--model", default="4032")
+    p.add_argument("--hz", type=int, choices=(50, 60), default=60,
+                   help="screen editor ROM: 60 = North American PET (default), 50 = European")
+    p.add_argument("--warp", action="store_true", help="run in warp mode (timing not realistic)")
+    p.set_defaults(steps=None)
+    a = p.parse_args()
+    a.steps = a.steps or [("wait", 3.0)]
+    return a
+
+
+def hexdump(data, start):
+    rows = []
+    for i in range(0, len(data), 16):
+        chunk = data[i:i + 16]
+        rows.append(f">C:{start + i:04x}  " + " ".join(f"{b:02x}" for b in chunk))
+    return "\n".join(rows)
+
+
+def main():
+    a = parse_args()
+    try:
+        prg = basic.tokenize_file(a.program, a.prg)
+    except basic.TokenizeError as e:
+        sys.stderr.write(f"TOKENIZE FAILED\n{e}\n")
+        sys.exit(2)
+    if a.prg:
+        print(f"WROTE {a.prg}")
+        return
+
+    drives = {}
+    for spec in a.drive:
+        dev, _, folder = spec.partition("=")
+        if not dev.isdigit() or not 8 <= int(dev) <= 11 or not os.path.isdir(folder):
+            sys.stderr.write(f"bad --drive {spec}: need N=EXISTING_FOLDER with N 8-11\n")
+            sys.exit(2)
+        drives[int(dev)] = folder
+
+    emu = Emulator(a.model, a.hz, a.warp, drives, port=find_free_port())
+    status = 0
+    try:
+        emu.start()
+        emu.load_prg(prg, run=True)
+        for kind, val in a.steps:
+            if kind == "wait":
+                emu.run(val)
+            elif kind == "keys":
+                emu.type(val)
+            elif kind == "sys":
+                emu.type(f"SYS {parse_addr(val)}\r")
+            elif kind == "screen":
+                print(emu.screen_text("screen"))
+            elif kind == "peek":
+                lo, _, hi = val.partition("-")
+                lo = parse_addr(lo)
+                hi = parse_addr(hi) if hi else lo
+                print(hexdump(emu.peek(lo, hi), lo))
+            elif kind == "regs":
+                print(emu.registers())
+            elif kind == "mon":
+                print(emu.monitor(val))
+            elif kind == "brk":
+                print(emu.set_break(parse_addr(val)))
+            elif kind == "until_break":
+                if emu.wait_break(val):
+                    print("BREAKPOINT HIT: " + emu.mon.last_stop)
+                    print(emu.registers())
+                else:
+                    print(f"BREAKPOINT NOT HIT within {val:g}s")
+        lines = emu.screen_lines()
+        if a.shot:
+            emu.screenshot(a.shot)
+        print(scr.framed(lines, emu.cols, "final"))
+        errors = scr.basic_errors(lines)
+        if errors:
+            print("BASIC ERRORS: " + " / ".join(errors))
+            status = 1
+        else:
+            print("NO BASIC ERRORS ON SCREEN")
+    except (EmulatorError, OSError) as e:
+        sys.stderr.write(f"EMULATOR FAILED ({e})\n{emu.log_tail()}\n")
+        status = 3
+    finally:
+        emu.stop()
+    sys.exit(status)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,16 @@
+# Your programs and the container's home folder stay local
+workspace/*
+!workspace/CLAUDE.md
+!workspace/.mcp.json
+!workspace/programs/
+workspace/programs/*
+!workspace/programs/.gitkeep
+home/*
+!home/.gitkeep
+
+# Local deploy settings (host names, SSH keys, user IDs)
+.env
+deploy.env
+
+__pycache__/
+*.pyc
